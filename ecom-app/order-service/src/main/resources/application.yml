@@ -1,0 +1,11 @@
+## Database Properties for MySQL
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/ecomapp
+    username: root
+    password: password
+
+  jpa:
+    generate-ddl: true
+    show-sql: true
