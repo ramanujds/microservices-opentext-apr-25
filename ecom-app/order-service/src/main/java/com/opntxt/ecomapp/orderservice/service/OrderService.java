@@ -1,5 +1,6 @@
 package com.opntxt.ecomapp.orderservice.service;
 
+import com.opntxt.ecomapp.orderservice.client.ProductServiceClient;
 import com.opntxt.ecomapp.orderservice.dto.OrderRequestDto;
 import com.opntxt.ecomapp.orderservice.dto.ProductDto;
 import com.opntxt.ecomapp.orderservice.model.OrderEntity;
@@ -14,16 +15,19 @@ import java.util.List;
 public class OrderService {
 
     private OrderRepository orderRepo;
-    private RestTemplate restTemplate;
+//    private RestTemplate restTemplate;
+    private ProductServiceClient productClient;
 
-    public OrderService(OrderRepository orderRepo, RestTemplate restTemplate) {
+    public OrderService(OrderRepository orderRepo, ProductServiceClient productClient) {
         this.orderRepo = orderRepo;
-        this.restTemplate = restTemplate;
+        this.productClient = productClient;
     }
 
     public OrderEntity placeOrder(OrderRequestDto orderRequest) {
 
-        ProductDto product = restTemplate.getForObject("http://PRODUCT-SERVICE/api/v1/products/" + orderRequest.productId(), ProductDto.class);
+//        ProductDto product = restTemplate.getForObject("http://PRODUCT-SERVICE/api/v1/products/" + orderRequest.productId(), ProductDto.class);
+
+        ProductDto product = productClient.getProductById(orderRequest.productId());
 
         double total = product.price()*orderRequest.quantity();
 
