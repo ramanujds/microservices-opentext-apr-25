@@ -23,7 +23,7 @@ public class OrderService {
 
     public OrderEntity placeOrder(OrderRequestDto orderRequest) {
 
-        ProductDto product = restTemplate.getForObject("http://localhost:8100/api/v1/products/" + orderRequest.productId(), ProductDto.class);
+        ProductDto product = restTemplate.getForObject("http://PRODUCT-SERVICE/api/v1/products/" + orderRequest.productId(), ProductDto.class);
 
         double total = product.price()*orderRequest.quantity();
 
