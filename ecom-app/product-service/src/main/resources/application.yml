@@ -1,8 +1,11 @@
 
 
+
 ## Database Properties for MySQL
 
 spring:
+  profiles:
+    active: dev
   datasource:
     url: jdbc:mysql://localhost:3306/ecomapp
     username: root
