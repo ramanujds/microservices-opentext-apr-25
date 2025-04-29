@@ -1,9 +1,11 @@
-kafka:
-  topic: order-topic
+#kafka:
+#  topic: order-topic
 
 ## Database Properties for MySQL
 
 spring:
+  profiles:
+    active: docker
   datasource:
     url: jdbc:mysql://localhost:3306/ecomapp
     username: root
@@ -14,11 +16,11 @@ spring:
     show-sql: true
 
 
-  kafka:
-    bootstrap-servers: localhost:9092
-    producer:
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#  kafka:
+#    bootstrap-servers: localhost:9092
+#    producer:
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
 eureka:
   client:

@@ -1,0 +1,16 @@
+## Database Properties for MySQL
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:order_db
+    username: sa
+    password: password
+
+  jpa:
+    generate-ddl: true
+    show-sql: true
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false

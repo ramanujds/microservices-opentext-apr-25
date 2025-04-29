@@ -18,15 +18,17 @@ public class OrderService {
 
     private OrderRepository orderRepo;
     private ProductServiceClient productClient;
-    private KafkaTemplate<String, String> kafkaTemplate;
+//    private KafkaTemplate<String, String> kafkaTemplate;
 
-    @Value("${kafka.topic}")
-    private String topic;
+//    @Value("${kafka.topic}")
+//    private String topic;
 
-    public OrderService(OrderRepository orderRepo, ProductServiceClient productClient, KafkaTemplate<String, String> kafkaTemplate) {
+    public OrderService(OrderRepository orderRepo, ProductServiceClient productClient
+                        // KafkaTemplate<String, String> kafkaTemplate
+                         ) {
         this.orderRepo = orderRepo;
         this.productClient = productClient;
-        this.kafkaTemplate = kafkaTemplate;
+       //  this.kafkaTemplate = kafkaTemplate;
     }
 
     public OrderEntity placeOrder(OrderRequestDto orderRequest) {
@@ -47,7 +49,7 @@ public class OrderService {
 
         var order = orderRepo.save(orderDetails);
 
-        kafkaTemplate.send(topic, order.toString());
+    //    kafkaTemplate.send(topic, order.toString());
 
         return order;
 
