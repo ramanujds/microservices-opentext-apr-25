@@ -5,6 +5,8 @@ import com.opntxt.ecomapp.orderservice.dto.OrderRequestDto;
 import com.opntxt.ecomapp.orderservice.dto.ProductDto;
 import com.opntxt.ecomapp.orderservice.model.OrderEntity;
 import com.opntxt.ecomapp.orderservice.repository.OrderRepository;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,12 +17,16 @@ import java.util.List;
 public class OrderService {
 
     private OrderRepository orderRepo;
-//    private RestTemplate restTemplate;
     private ProductServiceClient productClient;
+    private KafkaTemplate<String, String> kafkaTemplate;
 
-    public OrderService(OrderRepository orderRepo, ProductServiceClient productClient) {
+    @Value("${kafka.topic}")
+    private String topic;
+
+    public OrderService(OrderRepository orderRepo, ProductServiceClient productClient, KafkaTemplate<String, String> kafkaTemplate) {
         this.orderRepo = orderRepo;
         this.productClient = productClient;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     public OrderEntity placeOrder(OrderRequestDto orderRequest) {
@@ -39,7 +45,11 @@ public class OrderService {
         orderDetails.setTotalAmount(total);
         orderDetails.setOrderDate(LocalDate.now());
 
-        return orderRepo.save(orderDetails);
+        var order = orderRepo.save(orderDetails);
+
+        kafkaTemplate.send(topic, order.toString());
+
+        return order;
 
 
     }

@@ -1,5 +1,6 @@
 package com.opntxt.ecomapp.productservice.service;
 
+import com.opntxt.ecomapp.productservice.exception.ResourceNotFoundException;
 import com.opntxt.ecomapp.productservice.model.Product;
 import com.opntxt.ecomapp.productservice.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class ProductService {
     }
 
     public Product getProductById(long id) {
-        return productRepo.findById(id).orElseThrow(()-> new RuntimeException("Product not found"));
+        return productRepo.findById(id).orElseThrow(()-> new ResourceNotFoundException("Product with id:"+id+" not found"));
     }
 
     public void deleteProductById(long id) {
@@ -34,7 +35,7 @@ public class ProductService {
     }
 
     public Product getProductByName(String name) {
-        return productRepo.findByName(name).orElseThrow(()-> new RuntimeException("Product not found"));
+        return productRepo.findByName(name).orElseThrow(()-> new ResourceNotFoundException("Product with name:"+name+" not found"));
     }
 
 

@@ -1,3 +1,6 @@
+kafka:
+  topic: order-topic
+
 ## Database Properties for MySQL
 
 spring:
@@ -10,7 +13,40 @@ spring:
     generate-ddl: true
     show-sql: true
 
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      productClient:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 2
+        slidingWindowType: count_based
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
